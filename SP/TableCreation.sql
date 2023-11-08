@@ -1,10 +1,12 @@
 DROP TABLE EventLog
 DROP TABLE Usuario;
+DROP TABLE Empleado;
 DROP TABLE TiposdeDocumentodeIdentidad;
 DROP TABLE TiposDeJornadas;
 DROP TABLE Puesto;
 DROP TABLE Departamento;
 DROP TABLE Feriado;
+DROP TABLE AsociacionEmpleadoDeducciones;
 DROP TABLE TipoDeMovimiento;
 DROP TABLE TipoDeDeduccion;
 DROP TABLE TipoEvento;
@@ -76,13 +78,19 @@ CREATE TABLE TipoEvento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128)
 );
+CREATE TABLE AsociacionEmpleadoDeducciones(
+IdTipoDeduccion int,
+ValorTipoDocumento int,
+Monto int
+);
 CREATE TABLE EventLog (
  id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
  LogDescription varchar(2000) NOT NULL, 
  PostIdUser INT FOREIGN KEY REFERENCES Usuario(id) NOT NULL, 
  PostIP varchar(64) NOT NULL, 
  PostTime datetime NOT NULL
-); CREATE TABLE DBErrors(
+); 
+CREATE TABLE DBErrors(
  [ErrorID] [int] IDENTITY(1,1) NOT NULL,
  [UserName] [varchar](100) NULL,
  [ErrorNumber] [int] NULL,
@@ -92,4 +100,4 @@ CREATE TABLE EventLog (
  [ErrorProcedure] [varchar](max) NULL,
  [ErrorMessage] [varchar](max) NULL,
  [ErrorDateTime] [datetime] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] 
