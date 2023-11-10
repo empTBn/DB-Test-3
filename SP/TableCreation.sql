@@ -1,8 +1,10 @@
-DROP TABLE EventLog
+
 DROP TABLE Usuario;
 DROP TABLE Empleado;
-DROP TABLE TiposdeDocumentodeIdentidad;
-DROP TABLE TiposDeJornadas;
+DROP TABLE MarcaDeAsistencia;
+DROP TABLE TipoDocuIdentidad;
+DROP TABLE TipoDeJornada;
+DROP TABLE TipoJornadaProximaSemana;
 DROP TABLE Puesto;
 DROP TABLE Departamento;
 DROP TABLE Feriado;
@@ -11,7 +13,7 @@ DROP TABLE TipoDeMovimiento;
 DROP TABLE TipoDeDeduccion;
 DROP TABLE TipoEvento;
 DROP TABLE DBErrors;
-
+DROP TABLE EventLog;
 
 
 --Creation of Tables
@@ -34,9 +36,11 @@ Activo bit
 );
 CREATE TABLE MarcaDeAsistencia(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
-ValorTipoDocumento VARCHAR(128),
-HoraEntrada time,
-HoraSalida time,
+ValorTipoDocumento int,
+FechaEntrada Date,
+FechaSalida Date,
+HoraEntrada Time,
+HoraSalida Time,
 Activo bit
 );
 CREATE TABLE TipoDocuIdentidad(
@@ -61,27 +65,38 @@ Nombre VARCHAR(128)
 CREATE TABLE Feriado(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
-Fecha date
+Fecha date,
+Activado bit
 );
 CREATE TABLE TipoDeMovimiento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
-Fecha date
+Fecha date,
+Activado bit
+);
+CREATE TABLE TipoJornadaProximaSemana(
+id INT IDENTITY (1, 1) PRIMARY KEY, 
+ValorTipoDocumento int,
+IdTipoJornada int,
+Activado bit
 );
 CREATE TABLE TipoDeDeduccion(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Obligatorio VARCHAR(128),
 Porcentual VARCHAR(128),
-Valor int
+Valor int,
+Activado bit
 );
 CREATE TABLE TipoEvento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
-Nombre VARCHAR(128)
+Nombre VARCHAR(128),
+Activado bit
 );
 CREATE TABLE AsociacionEmpleadoDeducciones(
 IdTipoDeduccion int,
 ValorTipoDocumento int,
-Monto int
+Monto int,
+Activado bit
 );
 CREATE TABLE EventLog (
  id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
