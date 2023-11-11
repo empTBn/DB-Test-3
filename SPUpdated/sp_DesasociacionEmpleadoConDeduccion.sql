@@ -37,7 +37,6 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'DESASOCIACION EMPLEADO CON DEDUCCION PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()
@@ -63,6 +62,7 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'DESASOCIACION EMPLEADO CON DEDUCCION PROCEDURE ERROR',
+			0,
             (SELECT @@SERVERNAME),
             GETDATE()
         );

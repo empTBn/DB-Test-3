@@ -38,7 +38,6 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'TIPO JORNADA PROXIMA SEMANA PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()
@@ -64,6 +63,7 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'TIPO JORNADA PROXIMA SEMANA PROCEDURE ERROR',
+			0,
             (SELECT @@SERVERNAME),
             GETDATE()
         );

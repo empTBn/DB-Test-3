@@ -33,7 +33,6 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'BORRAR EMPLEADO PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()
@@ -59,6 +58,7 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'BORRAR EMPLEADO PROCEDURE ERROR',
+			0,
             (SELECT @@SERVERNAME),
             GETDATE()
         );

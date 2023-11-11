@@ -42,7 +42,6 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'ASOCIACION EMPLEADO DEDUCCIONES PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()
@@ -68,6 +67,7 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'ASOCIACION EMPLEADO DEDUCCIONES PROCEDURE ERROR',
+			0,
             (SELECT @@SERVERNAME),
             GETDATE()
         );

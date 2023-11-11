@@ -56,7 +56,6 @@ BEGIN
 
         INSERT INTO dbo.EventLog VALUES(
             'ADD EMPLEADO PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()

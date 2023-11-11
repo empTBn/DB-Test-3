@@ -30,8 +30,8 @@ BEGIN
         WITH  
         (   Fecha date '../../@Fecha',
             ValorTipoDocumento int '@ValorTipoDocumento',
-            FechaEntrada Date '@FechaEntrada',
-            FechaSalida Date '@FechaSalida',
+            FechaEntrada Date '@HoraEntrada',
+            FechaSalida Date '@HoraSalida',
             HoraEntrada Time '@HoraEntrada',
             HoraSalida Time '@HoraSalida'
         )
@@ -50,7 +50,6 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'MARCA DE ASISTENCIA PROCEDURE SUCCESS',
-			'USER: #',
 			0,
             (SELECT @@SERVERNAME),
             GETDATE()
@@ -76,6 +75,7 @@ BEGIN
         INSERT INTO dbo.EventLog 
         VALUES(
             'MARCA DE ASISTENCIA PROCEDURE ERROR',
+			0,
             (SELECT @@SERVERNAME),
             GETDATE()
         );
