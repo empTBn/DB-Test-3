@@ -20,6 +20,7 @@ DROP TABLE EventLog;
 CREATE TABLE Usuario(
 id INT IDENTITY (1, 1) PRIMARY KEY,
 UserName VARCHAR(64), 
+Tipo int,
 Password VARCHAR (64),
 Activo bit
 );
@@ -45,22 +46,34 @@ Activo bit
 );
 CREATE TABLE TipoDocuIdentidad(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
-Nombre VARCHAR(128)
+Nombre VARCHAR(128),
+Activado bit
 );
 CREATE TABLE TipoDeJornada(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
 HoraInicio time,
-HoraFin time
+HoraFin time,
+Activado bit
 );
 CREATE TABLE Puesto(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
-SalarioXHora INT
+SalarioXHora INT,
+Activado bit	
 );
 CREATE TABLE Departamento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
-Nombre VARCHAR(128)
+Nombre VARCHAR(128),
+Activado bit
+);
+CREATE TABLE TipoDeDeduccion(
+id INT IDENTITY (1, 1) PRIMARY KEY, 
+Nombre VARCHAR(128),
+Obligatorio VARCHAR(128),
+Porcentual VARCHAR(128),
+Valor Float,
+Activado bit
 );
 CREATE TABLE Feriado(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
@@ -71,7 +84,6 @@ Activado bit
 CREATE TABLE TipoDeMovimiento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
-Fecha date,
 Activado bit
 );
 CREATE TABLE TipoJornadaProximaSemana(
@@ -80,13 +92,7 @@ ValorTipoDocumento int,
 IdTipoJornada int,
 Activado bit
 );
-CREATE TABLE TipoDeDeduccion(
-id INT IDENTITY (1, 1) PRIMARY KEY, 
-Obligatorio VARCHAR(128),
-Porcentual VARCHAR(128),
-Valor int,
-Activado bit
-);
+
 CREATE TABLE TipoEvento(
 id INT IDENTITY (1, 1) PRIMARY KEY, 
 Nombre VARCHAR(128),
@@ -101,7 +107,7 @@ Activado bit
 CREATE TABLE EventLog (
  id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
  LogDescription varchar(2000) NOT NULL, 
- PostIdUser INT FOREIGN KEY REFERENCES Usuario(id) NOT NULL, 
+ PostIdUser INT NOT NULL, 
  PostIP varchar(64) NOT NULL, 
  PostTime datetime NOT NULL
 ); 
