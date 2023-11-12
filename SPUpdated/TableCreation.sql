@@ -104,6 +104,23 @@ ValorTipoDocumento int,
 Monto int,
 Activado bit
 );
+CREATE TABLE EmpleadoPorSemana(
+id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+ValorTipoDocumento int,
+FechaInicio Date,
+FechaFin Date,
+totalDeducciones int,
+salarioxSemana int,
+deduccionesxSemana int,
+SalarioXHora int,
+Fecha date
+);
+CREATE TABLA EmpleadoPorMes(
+id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+sumaSemanas int,
+sumaDeducciones int,
+calculoSalarioNeto int,
+);
 CREATE TABLE EventLog (
  id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
  LogDescription varchar(2000) NOT NULL, 
