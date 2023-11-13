@@ -11,6 +11,8 @@ DROP TABLE Feriado;
 DROP TABLE AsociacionEmpleadoDeducciones;
 DROP TABLE TipoDeMovimiento;
 DROP TABLE TipoDeDeduccion;
+DROP TABLE EmpleadoPorSemana;
+DROP TABLE EmpleadoPorMes;
 DROP TABLE TipoEvento;
 DROP TABLE DBErrors;
 DROP TABLE EventLog;
@@ -115,7 +117,7 @@ deduccionesxSemana int,
 SalarioXHora int,
 Fecha date
 );
-CREATE TABLA EmpleadoPorMes(
+CREATE TABLE EmpleadoPorMes(
 id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
 sumaSemanas int,
 sumaDeducciones int,
