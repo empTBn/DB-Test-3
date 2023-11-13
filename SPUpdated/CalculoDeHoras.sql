@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE sp_CalculoSemanalEmpleado
+CREATE OR ALTER PROCEDURE sp_CalculoSemanalEmp
 	@Fecha DATE,
 	@ValorDocId int
 AS
