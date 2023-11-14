@@ -10,14 +10,29 @@ AS
 	DECLARE @HorasExtraDoble int;
 	DECLARE @SalarioBruto int;
 	DECLARE @Deducciones int;
+	DECLARE @IdDeduccion int;
 	DECLARE @SalarioXHora int;
 	DECLARE @idPuesto int;
 	DECLARE @HoraInicio time;
 	DECLARE @HoraFin time;
+	DECLARE @SumaFijos int;  -- Guardar la suma de las deducciones fijas
+	DECLARE @SumaPorc int; -- deducciones porcentuales
 
 	SET @idPuesto=(Select idPuesto FROM Empleado Where ValorDocuIdentidad=@ValorDocId );
 	SET @SalarioXHora=(Select SalarioXHora FROM Puesto WHERE id=@idPuesto);
 
+	-- Calcular la suma de las deducciones
+	SELECT @SumaFijos = ISNULL(SUM(Monto), 0) -- Suma Fijos
+	FROM AsociacionEmpleadoDeducciones AS aed
+	WHERE ValorTipoDocumento = @ValorDocId AND Activado = 1
+		AND NOT EXISTS (
+			SELECT 1
+			FROM TipoDeDeduccion AS td
+			WHERE td.id = aed.IdTipoDeduccion
+			AND td.Porcentual = 'Si'
+		);
+
+	SET @SumaFijos = @SumaFijos/4
 
 	SET @primerafecha=@Fecha;
 	SET @primerafecha = dateadd(day, -6 , @primerafecha);
@@ -74,5 +89,4 @@ AS
 					  (@HorasDoble*(@SalarioXHora*2))+
 					  (@HorasExtra*(@SalarioXHora*1.5))+
 					  (@HorasExtraDoble*(@SalarioXHora*3));
-
 
