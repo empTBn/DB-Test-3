@@ -115,7 +115,7 @@ deduccionesxSemana int,
 SalarioXHora int,
 Fecha date
 );
-CREATE TABLA EmpleadoPorMes(
+CREATE TABLE EmpleadoPorMes(
 id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
 sumaSemanas int,
 sumaDeducciones int,
