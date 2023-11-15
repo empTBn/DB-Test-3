@@ -11,6 +11,8 @@ DROP TABLE Feriado;
 DROP TABLE AsociacionEmpleadoDeducciones;
 DROP TABLE TipoDeMovimiento;
 DROP TABLE TipoDeDeduccion;
+DROP TABLE EmpleadoPorSemana;
+DROP TABLE EmpleadoPorMes;
 DROP TABLE TipoEvento;
 DROP TABLE DBErrors;
 DROP TABLE EventLog;
