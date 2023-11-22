@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+	<div class="login-form">
+		<h1>Pagina principal para admin</h1>
+  	<!-- Boton para filtrar por nombre -->
+    <button class="btn"><a class="a2" onclick="filtrarNombre()" href="/getNombre">Filtrar por nombre</a></button>
+       	
+	<!-- Espacio de texto para filtrar por nombre -->
+	 <input type="text" id="inNombre" placeholder="Filtrar por nombre">
+       	
+	<!-- Agregar empleado -->
+   <button class="btn"><a class="a2"href="/AgregarEmpleado">Agregar Empleado</a></button>
+
+    <!-- Editar empleado -->
+   <button class="btn"><a class="a2"href="/ModificarEmpleado">Modificar Empleado</a></button>
+
+   <!-- Eliminar empleado -->
+   <button class="btn"><a class="a2"href="/BorrarEmpleado">Borrar Empleado</a></button>
+
+   <!-- logout -->
+   <button class="btn"><a class="a2"href="/logout">Salir</a></button>
+
+	<!-- Declaracion y creacion de la tabla en HTML para la base de datos -->
+	<table id="Empleados">
+         <tr class="header">
+           <th style="width:50%;">Nombre</th>
+           <th style="width:50%;">Puesto</th>
+	 </tr>
+         <%Empleados.recordset.forEach(function(Empleado, index){%>
+         <tr>
+           <td><%= Empleado.Nombre%></td>
+           <td><%= Empleado.Puesto%></td>
+         </tr>
+         <%});%>
+       </table> 
+       
+
+
+
+       <script> 
+        function filtrarNombre() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("inNombre");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("Empleados");
+          tr = table.getElementsByTagName("tr");
+        
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+	
+        
+        </script>
+</body>
+</html>

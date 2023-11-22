@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+      <div class="login-form">
+	<h1>Editar empleado</h1>
+        <form action="editar" method="POST">
+            <input type="text" name="Nombre" placeholder="Nombre del empleado" required>
+            <input type="text" name="Id" placeholder="Id del empleado" required>
+            <input type="text" name="NombreN" placeholder="Nuevo Nombre" required>
+            <input type="text" name="Puesto" placeholder="Puesto del empleado" required> 
+            <input type="submit" id="loginbutton" value="Editar">
+
+            <!-- Boton de redireccion hacia /Main -->
+    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+        </form>
+    </div>
+    <table id="Empleados">
+         <tr class="header">
+           <th style="width:40%;">Nombre</th>
+           <th style="width:30%;">Puesto</th>
+           <th style="width:30%;">Id</th>
+     </tr>
+         <%Empleados.recordset.forEach(function(Empleado, index){%>
+         <tr>
+           <td><%= Empleado.Nombre%></td>
+           <td><%= Empleado.Puesto></td>
+           <td><%= Empleado.Id%></td>
+         </tr>
+         <%});%>
+       </table> 
+
+
+</body>
+</html>

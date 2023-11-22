@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+	<div class="login-form">
+		<h1>Pagina principal para empleados</h1>
+  	<!-- Boton para mostrar planilla semanal -->
+    <button class="btn"><a class="a2" onclick="mostrarSemanal()" href="/getPlanillaSemanal">Planilla semanal</a></button>
+
+    <!-- Boton para mostrar planilla mensual -->
+   <button class="btn"><a class="a2" onclick="mostrarMensual()" href="/gerPlanillaMensual">Planilla mensual</a></button> 
+
+	<!-- Boton de redireccion hacia /AgregarArticulo -->
+	 <button class="btn"><a class="a2"href="/RegresarAdmin">Regresar a interfaz de admin</a></button>
+
+     <!-- Logout -->
+     <button class="btn"><a class="a2"href="/logout">Salir</a></button>
+
+
+	<!-- Decidir si se muestran las planillas de una vez o si mejor despues de que el usuario presiona un boton -->
+    <table id="Semanal">
+        <tr class="header">
+          <th style="width:25%;">Fecha</th>
+          <th style="width:25%;">Deducciones</th>
+          <th style="width:25%;">Salario bruto</th>
+          <th style="width:25%;">Salario neto</th>
+    </tr>
+        <%Semanal.recordset.forEach(function(Semana, index){%>
+        <tr>
+          <td><%= Semanal.fecha%></td>
+          <td><%= Semanal.deducciones%></td>
+          <td><%= Semanal.bruto%></td>\
+          <td><%= Semanal.neto%></td>
+        </tr>
+        <%});%>
+      </table> 
+
+      <table id="Mensual">
+        <tr class="header">
+          <th style="width:20%;">Fecha</th>
+          <th style="width:20%;">Deducciones</th>
+          <th style="width:20%;">Salario bruto</th>
+          <th style="width:20%;">Salario neto</th>
+    </tr>
+        <%Mensual.recordset.forEach(function(Mes, index){%>
+        <tr>
+          <td><%= Mensual.fecha%></td>
+          <td><%= Mensual.deducciones%></td>
+          <td><%= Mensual.bruto%></td>\
+          <td><%= Mensual.neto%></td>
+        </tr>
+        <%});%>
+      </table> 
+
+       <script> 
+        function mostrarSemanal() {
+            // 
+        }
+	    function mostrarMensual() {
+            // 
+        }
+        </script>
+</body>
+</html>

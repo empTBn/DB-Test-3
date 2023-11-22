@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+      <div class="login-form">
+	<h1>Agregar empleado</h1>
+        <form action="agregar" method="POST">
+            <input type="text" name="Id" placeholder="Id del empleado" required>
+            <input type="text" name="Nombre" placeholder="Nombre del empleado" required>
+            <input type="text" name="Puesto" placeholder="Puesto del empleado" required> 
+            <input type="submit" id="loginbutton" value="Agregar">
+            <!-- es posible que falten parametros -->
+
+            <!-- Boton de redireccion hacia /Main -->
+    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+        </form>
+    </div> <!-- no se si esto aqui es necesario -->
+    <table id="PuestoEmpleado">
+         <tr class="header">
+           <th style="width:100%;">Puestos del Empleado</th>
+     </tr>
+         <%PuestoEmpleado.recordset.forEach(function(PuestoEmpleado, index){%>
+         <tr>
+           <td><%= PuestoEmpleado.Nombre%></td>
+         </tr>
+         <%});%>
+       </table> 
+
+
+</body>
+</html>
