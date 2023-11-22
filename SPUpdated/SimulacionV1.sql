@@ -15,3 +15,6 @@ BEGIN
 
 	SET @primerafecha = dateadd(day, 1 , @primerafecha);
 END
+	DECLARE @ultimafecha Date;
+	SET @ultimafecha='2023-07-13';
+	EXEC sp_CalculoSemanalEmp @ultimafecha, 314052787,0

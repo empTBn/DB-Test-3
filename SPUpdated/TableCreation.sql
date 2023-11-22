@@ -111,11 +111,15 @@ id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
 ValorTipoDocumento int,
 FechaInicio Date,
 FechaFin Date,
-totalDeducciones int,
-salarioxSemana int,
-deduccionesxSemana int,
-SalarioXHora int,
-Fecha date
+Deducciones int,
+SalarioNeto int,
+SalarioBruto int,
+DeduccionesFijas int,
+DeduccionPorc int,
+HorasNormales int,
+HorasExtras int,
+HorasDoble int,
+HoraExtraDoble int
 );
 CREATE TABLE EmpleadoPorMes(
 id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 

@@ -1,6 +1,7 @@
 CREATE OR ALTER PROCEDURE sp_CalculoSemanalEmp
 	@Fecha DATE,
-	@ValorDocId int
+	@ValorDocId int,
+	@TipoDeMes bit
 AS
 	DECLARE @primerafecha DATE;
 	DECLARE @HorasTrabajadas int;
@@ -9,49 +10,62 @@ AS
 	DECLARE @HorasDoble int;
 	DECLARE @HorasExtraDoble int;
 	DECLARE @SalarioBruto int;
+	DECLARE @SalarioNeto int;
 	DECLARE @Deducciones int;
 	DECLARE @IdDeduccion int;
 	DECLARE @SalarioXHora int;
 	DECLARE @idPuesto int;
 	DECLARE @HoraInicio time;
 	DECLARE @HoraFin time;
+	DECLARE @FechaInicio Date;
+	DECLARE @FechaFin Date;
+	
 	DECLARE @SumaFijos int;  -- Guardar la suma de las deducciones fijas
-	DECLARE @SumaPorc int; -- deducciones porcentuales
+	DECLARE @SumaPorc Float; -- deducciones porcentuales
 
 	SET @idPuesto=(Select idPuesto FROM Empleado Where ValorDocuIdentidad=@ValorDocId );
 	SET @SalarioXHora=(Select SalarioXHora FROM Puesto WHERE id=@idPuesto);
-
-	-- Calcular la suma de las deducciones
-	SELECT @SumaFijos = ISNULL(SUM(Monto), 0) -- Suma Fijos
-	FROM AsociacionEmpleadoDeducciones AS aed
-	WHERE ValorTipoDocumento = @ValorDocId AND Activado = 1
-		AND NOT EXISTS (
-			SELECT 1
-			FROM TipoDeDeduccion AS td
-			WHERE td.id = aed.IdTipoDeduccion
-			AND td.Porcentual = 'Si'
-		);
-
-	SET @SumaFijos = @SumaFijos/4
-
+	PRINT @SalarioXHora;
+	SET @HorasTrabajadas=0;
+	SET @HorasTrabajadas=0;
+	SET @HorasExtra=0;
+	SET @HorasExtraDoble=0;
+	SET @HorasDoble=0;
+	SET @HorasNormales=0;
+	SET @SumaFijos=0;
+	SET @SumaPorc=0;
+	Set @Deducciones=0
 	SET @primerafecha=@Fecha;
+	SET @FechaFin=@Fecha;
 	SET @primerafecha = dateadd(day, -6 , @primerafecha);
+	SET @FechaInicio=@primerafecha
 	WHILE (@primerafecha <= @Fecha)
 		BEGIN
+			IF NOT EXISTS (SELECT HoraEntrada FROM MarcaDeAsistencia WHERE FechaEntrada=@primerafecha AND ValorTipoDocumento=@ValorDocId)
+				BEGIN
+				SET @primerafecha = dateadd(day, 1 , @primerafecha);
+				END
+				ELSE
+				BEGIN
 			SET @HoraInicio=(SELECT HoraEntrada FROM MarcaDeAsistencia WHERE FechaEntrada=@primerafecha AND ValorTipoDocumento=@ValorDocId);
+
 			SET @HoraFin=(SELECT HoraSalida FROM MarcaDeAsistencia WHERE FechaEntrada=@primerafecha AND ValorTipoDocumento=@ValorDocId);
-			SET @HorasTrabajadas=@HorasTrabajadas+DATEDIFF(HOUR,@HoraInicio,@HoraFin);
-			IF EXISTS (SELECT 1 FROM Feriado WHERE @primerafecha=@Fecha)
+
+			SET @HorasTrabajadas=(@HorasTrabajadas+(DATEDIFF(hour, @HoraInicio, @HoraFin)));
+			print @primerafecha
+			IF EXISTS (SELECT 1 FROM Feriado WHERE Fecha=@primerafecha)
 			   --Es un feriado
 			   BEGIN
 					IF(@HorasTrabajadas>8)
 						BEGIN
+							 
 							SET @HorasExtraDoble=@HorasExtraDoble+(@HorasTrabajadas-8);
 							SET @HorasTrabajadas=@HorasTrabajadas-(@HorasTrabajadas-8);
 							SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
 						END
 						ELSE
 							BEGIN
+								print 'ENTRE'
 								SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
 							END
 
@@ -67,13 +81,15 @@ AS
 						END
 						ELSE
 							BEGIN
+							  
 								SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
 							END
 			   END
-			IF NOT EXISTS (SELECT 1 FROM Feriado WHERE @primerafecha=@Fecha) AND NOT (DATEPART(WEEKDAY, @primerafecha)=7)
+			IF NOT EXISTS (SELECT 1 FROM Feriado WHERE Fecha=@primerafecha) AND NOT (DATEPART(WEEKDAY, @primerafecha)=7)
 				BEGIN
 					IF(@HorasTrabajadas>8)
 						BEGIN
+							
 							SET @HorasExtra=@HorasExtra+(@HorasTrabajadas-8);
 							SET @HorasTrabajadas=@HorasTrabajadas-(@HorasTrabajadas-8);
 							SET @HorasNormales=@HorasNormales+@HorasTrabajadas;
@@ -81,12 +97,83 @@ AS
 						ELSE
 							BEGIN
 								SET @HorasNormales=@HorasNormales+@HorasTrabajadas;
+								SET @HorasTrabajadas=0;
 							END
 				END
+			--PRINT @primerafecha;
+			Print 'Horas trabajadas';
+			Print @HorasTrabajadas;
+			--Print 'Horas extra';
+			--Print @HorasExtra;
+			--Print 'Horas ExtraDoble';
+			--Print @HorasExtraDoble;
+			--Print 'Horas Doble';
+			--Print @HorasDoble;
+			Print 'Horas Normales';
+			Print @HorasNormales;
+			SET @primerafecha = dateadd(day, 1 , @primerafecha);
+			
+			END
 		END
 	--Todas las horas trabajadas fueron calculadas
 	SET @SalarioBruto=(@HorasNormales*@SalarioXHora)+
 					  (@HorasDoble*(@SalarioXHora*2))+
 					  (@HorasExtra*(@SalarioXHora*1.5))+
 					  (@HorasExtraDoble*(@SalarioXHora*3));
+
+	--Deducciones fijas totales--
+	SET @SumaFijos= (SELECT Sum(MONTO) 
+	FROM AsociacionEmpleadoDeducciones 
+	WHERE ([IdTipoDeduccion]=4 or [IdTipoDeduccion]=5 or [IdTipoDeduccion]=6) AND [ValorTipoDocumento]=@ValorDocId)
+
+	--Deducciones Porcentuales totales --
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1)
+		BEGIN
+			SET @SumaPorc= @SumaPorc+9.5
+		END
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=2)
+		BEGIN
+			SET @SumaPorc= @SumaPorc+5
+		END
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1)
+		BEGIN
+			SET @SumaPorc= @SumaPorc+4.17
+		END
+	SET @SumaPorc=(@SalarioBruto*(@SumaPorc/100))
+
+
+
+	IF (@TipoDeMes=1)
+	BEGIN
+		SET @SumaFijos=@SumaFijos/5
+	END
+	ELSE
+	BEGIN
+		SET @SumaFijos=@SumaFijos/4
+	END
+	PRINT @SumaFijos;
+	IF (@SumaFijos IS NULL)
+		BEGIN
+		SET @SumaFijos=0;
+		END
+	SET @Deducciones=@SumaFijos+@SumaPorc
+
+	SET @SalarioNeto=@SalarioBruto-@Deducciones
+
+
+	INSERT INTO EmpleadoPorSemana
+	 SELECT	@ValorDocId,
+			@FechaInicio,
+			@FechaFin,
+			@Deducciones,
+			@SalarioNeto,
+			@SalarioBruto,
+			@SumaFijos,
+			@SumaPorc,
+			@HorasNormales,
+			@HorasExtra,
+			@HorasDoble,
+			@HorasExtraDoble
+
+
 
