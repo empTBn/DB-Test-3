@@ -52,21 +52,24 @@ AS
 			SET @HoraFin=(SELECT HoraSalida FROM MarcaDeAsistencia WHERE FechaEntrada=@primerafecha AND ValorTipoDocumento=@ValorDocId);
 
 			SET @HorasTrabajadas=(@HorasTrabajadas+(DATEDIFF(hour, @HoraInicio, @HoraFin)));
+			IF (@HorasTrabajadas<0)
+				BEGIN
+				SET @HorasTrabajadas=(24+@HorasTrabajadas);
+				END
 			print @primerafecha
 			IF EXISTS (SELECT 1 FROM Feriado WHERE Fecha=@primerafecha)
 			   --Es un feriado
 			   BEGIN
 					IF(@HorasTrabajadas>8)
 						BEGIN
-							 
 							SET @HorasExtraDoble=@HorasExtraDoble+(@HorasTrabajadas-8);
-							SET @HorasTrabajadas=@HorasTrabajadas-(@HorasTrabajadas-8);
-							SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
+							SET @HorasDoble=@HorasDoble+8;
+							SET @HorasTrabajadas=0;
 						END
 						ELSE
 							BEGIN
-								print 'ENTRE'
 								SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
+								SET @HorasTrabajadas=0;
 							END
 
 			   END
@@ -75,14 +78,18 @@ AS
 			   BEGIN
 					IF(@HorasTrabajadas>8)
 						BEGIN
+							Print 'Hora extra doble domingo'
+							print @HorasTrabajadas
 							SET @HorasExtraDoble=@HorasExtraDoble+(@HorasTrabajadas-8);
-							SET @HorasTrabajadas=@HorasTrabajadas-(@HorasTrabajadas-8);
-							SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
+							SET @HorasDoble=@HorasDoble+8;
+							SET @HorasTrabajadas=0;
 						END
 						ELSE
 							BEGIN
-							  
+								Print 'Hora doble domingo'
+								print @HorasTrabajadas
 								SET @HorasDoble=@HorasDoble+@HorasTrabajadas;
+								SET @HorasTrabajadas=0;
 							END
 			   END
 			IF NOT EXISTS (SELECT 1 FROM Feriado WHERE Fecha=@primerafecha) AND NOT (DATEPART(WEEKDAY, @primerafecha)=7)
@@ -91,8 +98,8 @@ AS
 						BEGIN
 							
 							SET @HorasExtra=@HorasExtra+(@HorasTrabajadas-8);
-							SET @HorasTrabajadas=@HorasTrabajadas-(@HorasTrabajadas-8);
-							SET @HorasNormales=@HorasNormales+@HorasTrabajadas;
+							SET @HorasNormales=@HorasNormales+8;
+							SET @HorasTrabajadas=0;
 						END
 						ELSE
 							BEGIN
@@ -100,17 +107,6 @@ AS
 								SET @HorasTrabajadas=0;
 							END
 				END
-			--PRINT @primerafecha;
-			Print 'Horas trabajadas';
-			Print @HorasTrabajadas;
-			--Print 'Horas extra';
-			--Print @HorasExtra;
-			--Print 'Horas ExtraDoble';
-			--Print @HorasExtraDoble;
-			--Print 'Horas Doble';
-			--Print @HorasDoble;
-			Print 'Horas Normales';
-			Print @HorasNormales;
 			SET @primerafecha = dateadd(day, 1 , @primerafecha);
 			
 			END
@@ -153,6 +149,10 @@ AS
 	END
 	PRINT @SumaFijos;
 	IF (@SumaFijos IS NULL)
+		BEGIN
+		SET @SumaFijos=0;
+		END
+	IF (@SalarioBruto=0)
 		BEGIN
 		SET @SumaFijos=0;
 		END
