@@ -7,17 +7,10 @@ ON dbo.Empleado
 AFTER INSERT
 AS 
 BEGIN
-    DECLARE @IdEmpleado INT;
-
-    -- Get IdEmpleado del nuevo empleado insertado
-    SELECT @IdEmpleado = ValorDocuIdentidad
-    FROM INSERTED;
-
-    -- Inserta asociacion obligatoria por ley
+    -- Inserta asociaciones para cada empleado insertado
     INSERT INTO dbo.AsociacionEmpleadoDeducciones (IdTipoDeduccion, ValorTipoDocumento, Monto, Activado)
-    VALUES (1, @IdEmpleado, 0.095, 1);
+    SELECT 1, ValorDocuIdentidad, 0.095, 1 FROM INSERTED; -- Asociacion obligatoria por ley
 
-	-- Inserta asociacion aporte CCSS
     INSERT INTO dbo.AsociacionEmpleadoDeducciones (IdTipoDeduccion, ValorTipoDocumento, Monto, Activado)
-    VALUES (3, @IdEmpleado, 0.0417, 1);
+    SELECT 3, ValorDocuIdentidad, 0.0417, 1 FROM INSERTED; -- Asociacion aporte CCSS
 END;
