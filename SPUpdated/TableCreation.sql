@@ -10,6 +10,7 @@ DROP TABLE Departamento;
 DROP TABLE Feriado;
 DROP TABLE AsociacionEmpleadoDeducciones;
 DROP TABLE TipoDeMovimiento;
+DROP TABLE Movimientos;
 DROP TABLE TipoDeDeduccion;
 DROP TABLE EmpleadoPorSemana;
 DROP TABLE EmpleadoPorMes;
@@ -127,6 +128,14 @@ sumaSemanas int,
 sumaDeducciones int,
 calculoSalarioNeto int,
 );
+CREATE TABLE Movimientos(
+id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+IdTipoMoviento int,
+Fecha Date,
+ValorDocId int,
+Monto Float
+);
+
 CREATE TABLE EventLog (
  id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
  LogDescription varchar(2000) NOT NULL, 
