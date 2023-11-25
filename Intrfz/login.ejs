@@ -9,22 +9,14 @@
 		<div class="login-form">
 			<!-- Titulo de la pagina -->
 			<h1>Login</h1>
-			<!-- Admin login section -->
+			<!-- Login section -->
 			<div>
 				<h2>Login as Admin</h2>
-				<form action="admin_auth" method="POST">
-					<input type="text" name="admin_username" id="admin_username" placeholder="Admin Username" required>
-					<input type="password" name="admin_password" id="admin_password" placeholder="Admin Password" required>
-					<input type="submit" id="admin_login_button" value="Login as Admin">
-				</form>
-			</div>
-			<!-- Employee login section -->
-			<div style="margin-top: 20px;">
-				<h2>Login as Employee</h2>
-				<form action="employee_auth" method="POST">
-					<input type="text" name="employee_username" id="employee_username" placeholder="Employee Username" required>
-					<input type="password" name="employee_password" id="employee_password" placeholder="Employee Password" required>
-					<input type="submit" id="employee_login_button" value="Login as Employee">
+				<form action="auth" method="POST">
+					<input type="text" name="username" id="username" placeholder="Username" required>
+					<input type="password" name="password" id="password" placeholder="Password" required>
+					<input type="submit" id="login_button" value="Login">
+					<!-- Falta comparacion para decidir si es admin o empleado y enviar a la interfaz correspondiente -->
 				</form>
 			</div>
 		</div>
