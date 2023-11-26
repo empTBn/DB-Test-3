@@ -1,0 +1,47 @@
+USE [Tarea3]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_FiltrarNombre]     ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE OR ALTER   PROCEDURE [dbo].[sp_FiltrarNombre]
+	@Nombre VARCHAR(128),
+    @output INT OUT -- Código de salida
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+        -- Select data from the table variable and order it by Nombre
+        SELECT *
+        FROM Empleado
+        WHERE Empleado.Nombre LIKE '%'+@Nombre+'%' AND Empleado.Activo=1ORDER BY Nombre 
+
+        SET @output = 1; -- Indicate success
+
+		INSERT INTO dbo.EventLog VALUES(
+			('sp_FiltrarNombre PROCEDURE SUCCSSED'),
+			(SELECT top (1) PostIdUser FROM EventLog ORDER BY id DESC),
+			(SELECT @@SERVERNAME),
+			GETDATE()
+		);
+    END TRY
+    BEGIN CATCH
+        	IF @@TRANCOUNT>0
+
+
+		INSERT INTO dbo.DBErrors VALUES (
+			SUSER_SNAME(),
+			ERROR_NUMBER(),
+			ERROR_STATE(),
+			ERROR_SEVERITY(),
+			ERROR_LINE(),
+			ERROR_PROCEDURE(),
+			ERROR_MESSAGE(),
+			GETDATE()
+		);
+        SET @output = 0; -- Indicate an error
+    END CATCH
+
+    SET NOCOUNT OFF;
+END;

@@ -1,0 +1,37 @@
+USE [SegundaTareaProgramada]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_Logout]    Script Date: 27/09/2023 05:07:37 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE or ALTER   PROCEDURE [dbo].[sp_Logout] 
+AS
+BEGIN
+	BEGIN TRY
+	SET NOCOUNT ON; 
+		INSERT INTO dbo.EventLog VALUES(
+			('LOGOUT PROCEDURE SUCCESS'),
+			(SELECT top (1) PostIdUser FROM EventLog ORDER BY id DESC),
+			(SELECT @@SERVERNAME),
+			GETDATE()
+		);    
+
+
+	END TRY
+	BEGIN CATCH
+		INSERT INTO dbo.DBErrors VALUES (
+			SUSER_SNAME(),
+			ERROR_NUMBER(),
+			ERROR_STATE(),
+			ERROR_SEVERITY(),
+			ERROR_LINE(),
+			ERROR_PROCEDURE(),
+			ERROR_MESSAGE(),
+			GETDATE()
+		);
+
+	END CATCH
+
+	SET NOCOUNT OFF;
+END;
