@@ -11,8 +11,10 @@ BEGIN
                      AS BulkColumn 
                      FROM OPENROWSET(BULK 'C:\Users\pablo\Downloads\OperacionesV2.xml', SINGLE_BLOB) AS x)
         EXEC sp_xml_preparedocument @hDoc OUTPUT, @XML
-
+		DECLARE @Contador int;
+		SET @Contador=1;
         DECLARE @xmlTable TABLE(
+			id int IDENTITY(1,1),
             idTipoDeduccion int,
             ValorTipoDocumento int
         );
@@ -28,10 +30,17 @@ BEGIN
         )
         WHERE @fecha = Fecha;  
 
+		WHILE EXISTS (SELECT ValorTipoDocumento FROM @xmlTable Where id=@Contador)
+		BEGIN
         UPDATE dbo.AsociacionEmpleadoDeducciones
         SET Activado = 0
         WHERE [AsociacionEmpleadoDeducciones].[idTipoDeduccion] = idTipoDeduccion
-        AND [AsociacionEmpleadoDeducciones].[ValorTipoDocumento] = ValorTipoDocumento;
+        AND [AsociacionEmpleadoDeducciones].[ValorTipoDocumento] = ValorTipoDocumento
+		AND [AsociacionEmpleadoDeducciones].Activado=1;
+		SET @Contador=@Contador+1;
+		END
+
+
 
         -- Log the success event
         INSERT INTO dbo.EventLog 

@@ -126,31 +126,31 @@ AS
 	--Deducciones fijas totales--
 	SET @SumaFijos= (SELECT Sum(MONTO) 
 	FROM AsociacionEmpleadoDeducciones 
-	WHERE ([IdTipoDeduccion]=4 or [IdTipoDeduccion]=5 or [IdTipoDeduccion]=6) AND [ValorTipoDocumento]=@ValorDocId)
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=4)
+	WHERE ([IdTipoDeduccion]=4 or [IdTipoDeduccion]=5 or [IdTipoDeduccion]=6) AND [ValorTipoDocumento]=@ValorDocId AND Activado=1)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=4 AND Activado=1)
 		BEGIN
 			SET @IsDeduccion4=1;
 		END
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=5)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=5 AND Activado=1)
 		BEGIN
 			SET @IsDeduccion5=1;
 		END
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=6)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=6 AND Activado=1)
 		BEGIN
 			SET @IsDeduccion6=1;
 		END
 	--Deducciones Porcentuales totales --
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1 AND Activado=1)
 		BEGIN
 			SET @SumaPorc= @SumaPorc+9.5;
 			SET @IsDeduccion1=1;
 		END
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=2)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=2 AND Activado=1)
 		BEGIN
 			SET @SumaPorc= @SumaPorc+5;
 			SET @IsDeduccion2=1;
 		END
-	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1)
+	if exists (Select idTipoDeduccion from AsociacionEmpleadoDeducciones where ValorTipoDocumento=@ValorDocId AND IdTipoDeduccion=1 AND Activado=1)
 		BEGIN
 			SET @SumaPorc= @SumaPorc+4.17;
 			SET @IsDeduccion3=1;

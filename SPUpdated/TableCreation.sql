@@ -1,4 +1,3 @@
-
 DROP TABLE Usuario;
 DROP TABLE Empleado;
 DROP TABLE MarcaDeAsistencia;
@@ -124,9 +123,17 @@ HoraExtraDoble int
 );
 CREATE TABLE EmpleadoPorMes(
 id int IDENTITY(1,1) NOT NULL PRIMARY KEY, 
-sumaSemanas int,
-sumaDeducciones int,
-calculoSalarioNeto int,
+ValorTipoDocumento int,
+FechaMes Date,
+Deducciones int,
+SalarioNeto int,
+SalarioBruto int,
+DeduccionesFijas int,
+DeduccionPorc int,
+HorasNormales int,
+HorasExtras int,
+HorasDoble int,
+HoraExtraDoble int
 );
 CREATE TABLE Movimientos(
 id int IDENTITY(1,1) NOT NULL PRIMARY KEY,
