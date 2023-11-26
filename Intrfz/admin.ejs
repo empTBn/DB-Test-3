@@ -28,13 +28,18 @@
 	<!-- Declaracion y creacion de la tabla en HTML para la base de datos -->
 	<table id="Empleados">
          <tr class="header">
-           <th style="width:50%;">Nombre</th>
-           <th style="width:50%;">Puesto</th>
+           <th style="width:35%;">Nombre</th>
+           <th style="width:25%;">Documento de identidad</th>
+           <th style="width:15%;">Id Departamento</th>
+           <th style="width:15%;">Id Puesto</th>
+
 	 </tr>
          <%Empleados.recordset.forEach(function(Empleado, index){%>
          <tr>
            <td><%= Empleado.Nombre%></td>
-           <td><%= Empleado.Puesto%></td>
+           <td><%= Empleado.ValorDocuIdentidad%></td>
+           <td><%= Empleado.IdDepartamento</td>
+           <td><%= Empleado.IdPuesto</td>
          </tr>
          <%});%>
        </table> 
