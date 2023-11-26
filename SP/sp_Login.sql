@@ -1,4 +1,4 @@
-ALTER PROCEDURE [dbo].[sp_Login] 
+CREATE OR ALTER PROCEDURE [dbo].[sp_Login] 
     @Usuario VARCHAR(64), --Nombre del usuario
     @Password VARCHAR(64), --Contraseña del usuario
     @output INT OUT	-- Codigo de resultado el cual su uso saber si el usuario entra o no
@@ -14,17 +14,24 @@ BEGIN
             --En caso de que el usuario y la contraseña coincidan
             SET @output = 1;
             INSERT INTO dbo.EventLog VALUES(
-                ('LOGIN PROCEDURE SUCCESS'),
+                ('LOGIN PROCEDURE EMPLEADO SUCCESS'),
                 (SELECT id FROM dbo.Empleado A WHERE A.Usuario = @Usuario AND A.Password = @Password),
                 (SELECT @@SERVERNAME),
                 GETDATE()
             );
             -- Redirect a admin o empleado basado en la verificacion
-            IF EXISTS (SELECT id FROM dbo.Usuario WHERE UserName = @Usuario)
-                SELECT 'admin.ejs' AS RedirectPage; -- Redirect a admin
-            ELSE
-                SELECT 'employee.ejs' AS RedirectPage; -- Redirect a interfaz de empleado
-        END
+
+		END
+		IF EXISTS (SELECT id FROM dbo.Usuario WHERE UserName = @Usuario)
+		BEGIN 
+			SET @output = 2;
+            INSERT INTO dbo.EventLog VALUES(
+                ('LOGIN PROCEDURE ADMIN SUCCESS'),
+                (SELECT id FROM dbo.Empleado A WHERE A.Usuario = @Usuario AND A.Password = @Password),
+                (SELECT @@SERVERNAME),
+                GETDATE()
+            );
+		END
         ELSE
         BEGIN
             INSERT INTO dbo.EventLog VALUES(

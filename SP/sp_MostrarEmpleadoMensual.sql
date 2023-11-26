@@ -1,34 +1,42 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_MostrarEmpleado]
+CREATE OR ALTER   PROCEDURE [dbo].[sp_MostrarEmpleadoMes]
+	@ValorDocId int,
     @output INT OUT -- Código de salida
 AS
 BEGIN
 	SET NOCOUNT ON;
 
     DECLARE @MostrarTable TABLE (
-      Nombre varchar(64)
-      ,TipoDocuIdentidad varchar(64)
-      ,ValorDocuIdentidad int
-      ,Departamento varchar(64)
-      ,Puesto varchar(64)
-      ,Usuario varchar(64)
-      ,Password varchar(64)
+		ValorTipoDocumento int,
+		FechaMes DATE,
+        Deducciones int,
+		SalarioNeto int,
+		SalarioBruto int,
+		DeduccionesFijas int,
+		DeduccionesPorc int,
+		HorasNormales int,
+		HorasExtras int,
+		HorasDoble int,
+		HoraExtraDoble int
         
     )
 
     BEGIN TRY
         -- Insert data into the table variable
         INSERT INTO @MostrarTable
-        SELECT 
-			Nombre
-			,(SELECT Nombre from TipoDocuIdentidad where Empleado.TipoDocuIdentidad=id)
-			,ValorDocuIdentidad
-			,(SELECT Nombre from Departamento  where Empleado.IdDepartamento=id)
-			,(SELECT Nombre from Puesto  where Empleado.IdPuesto=id)
-			,Usuario
-			,Password
-        FROM Empleado 
-		WHERE Activo=1 
-		ORDER BY Nombre
+        SELECT [ValorTipoDocumento]
+			,[FechaMes]
+			,[Deducciones]
+			,[SalarioNeto]
+			,[SalarioBruto]
+			,[DeduccionesFijas]
+			,[DeduccionPorc]
+			,[HorasNormales]
+			,[HorasExtras]
+			,[HorasDoble]
+			,[HoraExtraDoble]
+        FROM EmpleadoPorMes 
+		WHERE EmpleadoPorMes.ValorTipoDocumento=@ValorDocId
+
         -- Select data from the table variable and order it by Nombre
         SELECT *
         FROM @MostrarTable
