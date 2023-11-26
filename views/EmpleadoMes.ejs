@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+      <div class="login-form">
+	<h1>Detalle semanal del empleado</h1>
+
+            <!-- Boton de redireccion hacia /Main -->
+    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+        </form>
+    </div>
+    <table id="SemanasE">
+         <tr class="header">
+           <th style="width:20%;">Valor del documento de identidad</th>
+           <th style="width:20%;">Fecha</th>
+           <th style="width:10%;">Deducciones totales</th>
+           <th style="width:10%;">Salario Neto</th>
+           <th style="width:10%;">Salario Bruto</th>
+           <th style="width:5%;">Deducciones fijas</th>
+           <th style="width:5%;">Deducciones Porcentuales</th>
+           <th style="width:5%;">Horas ordinarias</th>
+           <th style="width:5%;">Horas extra</th>
+           <th style="width:5%;">Horas dobles</th>
+           <th style="width:5%;">Horas extras dobles</th>
+
+     </tr>
+         <%SemanasE.recordset.forEach(function(SemanasE, index){%>
+         <tr>
+           <td><%= SemanasE.ValorTipoDocumento%></td>
+           <td><%= SemanasE.FechaMes%></td>
+           <td><%= SemanasE.Deducciones%></td>
+           <td><%= SemanasE.SalarioNeto%></td>
+           <td><%= SemanasE.SalarioBruto%></td>
+           <td><%= SemanasE.DeduccionesFijas%></td>
+           <td><%= SemanasE.DeduccionPorc%></td>
+           <td><%= SemanasE.HorasNormales%></td>
+           <td><%= SemanasE.HorasExtras%></td>
+           <td><%= SemanasE.HorasDoble%></td>
+           <td><%= SemanasE.HoraExtraDoble%></td>
+         </tr>
+         <%});%>
+       </table> 
+
+
+</body>
+</html>

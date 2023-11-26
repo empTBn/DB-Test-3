@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+      <div class="login-form">
+	<h1>Modificar articulo</h1>
+        <form action="modificar" method="POST">
+            <input type="text" name="username" placeholder="Nombre del Articulo" required>
+            <input type="text" name="Codigo" placeholder="Codigo del articulo" required>
+            <input type="text" name="Nombre" placeholder="Nuevo Nombre" required>
+            <input type="text" name="ClaseArticulo" placeholder="Nombre de Clase de articulo" required> 
+            <input type="number" name="password" placeholder="Precio del articulo" required>
+            <input type="submit" id="loginbutton" value="Modificar">
+
+            <!-- Boton de redireccion hacia /Main -->
+    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+        </form>
+    </div>
+    <table id="Articulos">
+         <tr class="header">
+           <th style="width:35%;">Nombre</th>
+           <th style="width:25%;">Clase de Articulo</th>
+           <th style="width:25%;">Codigo</th>
+           <th style="width:15%;">Precio</th>
+     </tr>
+         <%Articulos.recordset.forEach(function(Articulo, index){%>
+         <tr>
+           <td><%= Articulo.Nombre%></td>
+           <td><%= Articulo.ClaseArticulo%></td>
+           <td><%= Articulo.Codigo%></td>
+           <td><%= Articulo.Precio%></td>
+         </tr>
+         <%});%>
+       </table> 
+
+
+</body>
+</html>

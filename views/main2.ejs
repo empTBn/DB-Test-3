@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+	<div class="login-form">
+		<h1>Pagina administradora de la empresa</h1>
+  	<!-- Boton para filtrar por nombre -->
+    <button class="btn"><a class="a2" onclick="filtrarNombre()">Filtrar por nombre</a></button>
+       	
+	<!-- Espacio de texto para filtrar por nombre -->
+	 <input type="text" id="inNombre" placeholder="Filtrar por nombre">
+
+   <input type="text" id="inNombre" placeholder="Impersonar empleado">
+       	
+	<!-- Boton de redireccion hacia /AgregarArticulo -->
+	 <button class="btn"><a class="a2"href="/AgregarArticulo">Agregar Empleado</a></button>
+   <button class="btn"><a class="a2"href="/BorrarArticulo">Borrar Empleado</a></button>
+   <button class="btn"><a class="a2"href="/ModificarArticulo">Modificar Empleado</a></button>
+   <button class="btn"><a class="a2"href="/logout">Impersonar empleado</a></button>
+   <button class="btn"><a class="a2"href="/logout">Salir</a></button>
+
+	<!-- Declaracion y creacion de la tabla en HTML para la base de datos -->
+	<table id="Empleado">
+         <tr class="header">
+           <th style="width:10%;">Nombre</th>
+           <th style="width:20%;">Tipo de documento de identidad</th>
+           <th style="width:10%;">Valor del documento de identidad</th>
+           <th style="width:10%;">Departamento</th>
+           <th style="width:20%;">Puesto</th>
+           <th style="width:15%;">Usuario</th>
+           <th style="width:15%;">Contraseña</th>
+	 </tr>
+         <%Empleado.recordset.forEach(function(Empleado, index){%>
+         <tr>
+           <td><%= Empleado.Nombre%></td>
+           <td><%= Empleado.TipoDocuIdentidad%></td>
+           <td><%= Empleado.ValorDocuIdentidad%></td>
+           <td><%= Empleado.Departamento%></td>
+           <td><%= Empleado.Puesto%></td>
+           <td><%= Empleado.Usuario%></td>
+           <td><%= Empleado.Password%></td>
+         </tr>
+         <%});%>
+       </table> 
+       
+
+
+
+       <script> 
+        function filtrarNombre() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("inNombre");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("Empleado");
+          tr = table.getElementsByTagName("tr");
+        
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+	function filtrarClaseArticulo() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("inClaseArticulo");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("Articulos");
+          tr = table.getElementsByTagName("tr");
+        
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+        function filtrarCantidad() {
+          // Declare variables
+          var input, input2, filter, table, tr, td, i, j, txtValue;
+          input = document.getElementById("inNombre");
+          input2 = document.getElementById("inCantidad");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("Articulos");
+          tr = table.getElementsByTagName("tr");
+          j = 0
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1 && j < parseInt(input2.value)) {
+                tr[i].style.display = "";
+                j=j+1;
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+        </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<!-- Estilo y color del fondo -->
+	<body style="background-color:#FFFFFF">
+		<div class="login-form">
+			<!-- Titulo de la pagina -->
+			<h1>Login</h1>
+			<!-- La acción que realizará el tipo submit del boton "Login" -->
+			<form action="auth" method="POST">
+				<!-- Dos espacios de texto y un boton, los cuales son Usuario, contraseña y el boton de login -->
+				<input type="text" name="username" placeholder="Username" required>
+				<input type="password" name="password" placeholder="Password" required>
+				<input type="submit" id="loginbutton" value="Login">
+			</form>
+		</div>
+	</body>
+</html>
