@@ -4,6 +4,11 @@ module.exports = {
 
 
     },
+    getMainPage3: (req, res)=>{
+        res.render('main3.ejs');
+
+
+    },
     getAdminMainPage: (req, res)=>{
     var output = 0;
         let dbrequest = new sql.Request();
@@ -82,12 +87,12 @@ module.exports = {
     getAgregarEmpleado: (req, res)=>{
         var output = 0;
         let dbrequest = new sql.Request();
-        let dbquery = "EXEC dbo.sp_FiltrarEmpleado @output out";
+        let dbquery = "EXEC dbo.sp_MostrarEmpleado @output out";
         dbrequest.output('output',sql.Int, output);//@output
         dbrequest.query(dbquery,function(err,rows,fields){
             if (err) console.log(err)
             else{
-                res.render('AgregarEmpleado.ejs', {"ValorDocuIdentidad": rows});
+                res.render('AgregarEmpleado.ejs', {"Empleado": rows});
             }
         });
 
@@ -100,12 +105,12 @@ module.exports = {
         dbrequest.query(dbquery,function(err,rows,fields){
             if (err) console.log(err)
             else{
-                res.render('BorrarEmpleado.ejs', {"Empleados": rows});
+                res.render('BorrarEmpleado.ejs', {"Empleado": rows});
             }
         });
 
     },
-        EmpleadoPorSemana: (req, res)=>{
+    EmpleadoPorSemana: (req, res)=>{
         var Nombre = req.body.username;
         var output = 0;
         console.log(Nombre);
@@ -122,7 +127,7 @@ module.exports = {
 
     },
     EmpleadoPorMes: (req, res)=>{
-        var Nombre = req.body.username;
+        var Nombre = req.body.username2;
         var output = 0;
         console.log(Nombre);
         let dbrequest = new sql.Request();
@@ -136,7 +141,53 @@ module.exports = {
             }
         });
 
+    },
+    EmpleadoPorSemanaAdmin: (req, res)=>{
+        var Nombre = req.body.username;
+        var output = 0;
+        console.log(Nombre);
+        let dbrequest = new sql.Request();
+        let dbquery = "EXEC dbo.sp_MostrarEmpleadoSemanal @ValorDocId, @output out";
+        dbrequest.input('ValorDocId',sql.Int, Nombre);//@ValorDocId
+        dbrequest.output('output',sql.Int, output);//@output
+        dbrequest.query(dbquery,function(err,rows,fields){
+            if (err) console.log(err)
+            else{
+                res.render('EmpleadoSemanal2.ejs', {"SemanasE": rows});
+            }
+        });
+
+    },
+    EmpleadoPorMesAdmin: (req, res)=>{
+        var Nombre = req.body.username2;
+        var output = 0;
+        console.log(Nombre);
+        let dbrequest = new sql.Request();
+        let dbquery = "EXEC dbo.sp_MostrarEmpleadoMes @ValorDocId, @output out";
+        dbrequest.input('ValorDocId',sql.Int, Nombre);//@ValorDocId
+        dbrequest.output('output',sql.Int, output);//@output
+        dbrequest.query(dbquery,function(err,rows,fields){
+            if (err) console.log(err)
+            else{
+                res.render('EmpleadoMes2.ejs', {"SemanasE": rows});
+            }
+        });
+
+    },
+    getModificarEmpleado: (req, res)=>{
+        var output = 0;
+        let dbrequest = new sql.Request();
+        let dbquery = "EXEC dbo.sp_MostrarEmpleado @output out";
+        dbrequest.output('output',sql.Int, output);//@output
+        dbrequest.query(dbquery,function(err,rows,fields){
+            if (err) console.log(err)
+            else{
+                res.render('ModificarEmpleado.ejs', {"Empleado": rows});
+            }
+        });
+
     }
+}
     /*
         getEditarEmpleado: (req, res)=>{
         var output = 0;
@@ -153,4 +204,3 @@ module.exports = {
     }*/
     
     
-}

@@ -22,7 +22,7 @@ sql.connect(config, function (err) {//una vez configurado conectese a la base de
     });
 global.sql = sql;
 app.use(express.static('public'));//Usamos el engine
-const {getMainPage, auth,getAdminMainPage,EmpleadoPorSemana,EmpleadoPorMes, getLoginPage, getAgregarEmpleado, getNombre, getCantidad, getClaseArticulo, getBorrarEmpleado, getModificarArticulo, getLogoutPage} = require('./routes/controller')//Paginas que van a pedir info de las bases de datos en el controller
+const {getMainPage,getMainPage3, auth,getAdminMainPage,EmpleadoPorSemana,EmpleadoPorMes,EmpleadoPorSemanaAdmin,EmpleadoPorMesAdmin, getLoginPage, getAgregarEmpleado, getNombre, getCantidad, getBorrarEmpleado, getModificarEmpleado, getLogoutPage} = require('./routes/controller')//Paginas que van a pedir info de las bases de datos en el controller
 const {agregar,borrar,modificar} = require('./routes/cruds');//Lo que agrega info a la base de datos
 //Como usamos la sesion
 app.use(session({
@@ -44,12 +44,16 @@ app.post('/modificar',modificar);
 app.get('/getNombre',getNombre);
 app.get('/main',getMainPage);
 app.get('/main2',getAdminMainPage);
+app.get('/main3',getMainPage3);
 app.post('/EmpleadoPorSemana',EmpleadoPorSemana);
 app.post('/EmpleadoPorMes',EmpleadoPorMes);
+app.post('/EmpleadoPorSemana2',EmpleadoPorSemanaAdmin);
+app.post('/EmpleadoPorMes2',EmpleadoPorMesAdmin);
 app.get('/login',getLoginPage);
 app.get('/logout',getLogoutPage);
 app.get('/AgregarEmpleado',getAgregarEmpleado);
 app.get('/BorrarEmpleado',getBorrarEmpleado);
+app.get('/ModificarEmpleado',getModificarEmpleado);
 //Los gets son paginas, los posts son funciones
 
 var server = app.listen(80, function () {

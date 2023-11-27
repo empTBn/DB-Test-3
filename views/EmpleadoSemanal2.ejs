@@ -9,13 +9,14 @@
 	<h1>Detalle semanal del empleado</h1>
 
             <!-- Boton de redireccion hacia /Main -->
-    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+    <button class="btn"><a class="a2"href="/main3">Salir</a></button>
         </form>
     </div>
     <table id="SemanasE">
          <tr class="header">
            <th style="width:20%;">Valor del documento de identidad</th>
-           <th style="width:20%;">Fecha</th>
+           <th style="width:10%;">Fecha de inicio</th>
+           <th style="width:10%;">Fecha de Fin</th>
            <th style="width:10%;">Deducciones totales</th>
            <th style="width:10%;">Salario Neto</th>
            <th style="width:10%;">Salario Bruto</th>
@@ -30,12 +31,13 @@
          <%SemanasE.recordset.forEach(function(SemanasE, index){%>
          <tr>
            <td><%= SemanasE.ValorTipoDocumento%></td>
-           <td><%= SemanasE.FechaMes%></td>
+           <td><%= SemanasE.FechaInicio%></td>
+           <td><%= SemanasE.FechaFin%></td>
            <td><%= SemanasE.Deducciones%></td>
            <td><%= SemanasE.SalarioNeto%></td>
            <td><%= SemanasE.SalarioBruto%></td>
            <td><%= SemanasE.DeduccionesFijas%></td>
-           <td><%= SemanasE.DeduccionesPorc%></td>
+           <td><%= SemanasE.DeduccionPorc%></td>
            <td><%= SemanasE.HorasNormales%></td>
            <td><%= SemanasE.HorasExtras%></td>
            <td><%= SemanasE.HorasDoble%></td>

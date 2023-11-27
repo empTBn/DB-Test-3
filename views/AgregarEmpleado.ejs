@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+
+<body style="background-color:#FFFFFF">
+      <div class="login-form">
+	<h1>Agregar Empleado</h1>
+        <form action="agregar" method="POST">
+            <input type="number" name="ValorDocuIdentidad" placeholder="Valor del documento de identidad" required>
+            <input type="text" name="username" placeholder="Nombre del Empleado" required>
+            <input type="text" name="TipoDocuIdentidad" placeholder="Tipo de documento de identidad" required>
+            <input type="text" name="Departamento" placeholder="Departamento" required> 
+            <input type="text" name="Puesto" placeholder="Puesto" required> 
+            <input type="text" name="usuario" placeholder="Nombre de Usuario" required>
+            <input type="text" name="password" placeholder="Contraseña" required>
+            <input type="submit" id="loginbutton" value="Agregar">
+
+            <!-- Boton de redireccion hacia /Main -->
+    <button class="btn"><a class="a2"href="/main2">Salir</a></button>
+        </form>
+    </div>
+    <table id="Empleado">
+         <tr class="header">
+           <th style="width:20%;">Nombre</th>
+           <th style="width:20%;">Tipo de documento de identidad</th>
+           <th style="width:20%;">Valor de documento de identidad</th>
+           <th style="width:10%;">Nombre de usuario</th>
+           <th style="width:15%;">Departamento</th>
+           <th style="width:15%;">Puesto</th>
+
+     </tr>
+         <%Empleado.recordset.forEach(function(Empleado, index){%>
+         <tr>
+           <td><%= Empleado.Nombre%></td>
+           <td><%= Empleado.TipoDocuIdentidad%></td>
+           <td><%= Empleado.ValorDocuIdentidad%></td>
+           <td><%= Empleado.Usuario%></td>
+           <td><%= Empleado.Departamento%></td>
+           <td><%= Empleado.Puesto%></td>
+         </tr>
+         <%});%>
+       </table> 
+
+
+</body>
+</html>

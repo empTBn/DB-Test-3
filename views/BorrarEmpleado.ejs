@@ -8,20 +8,20 @@
       <div class="login-form">
 	<h1>Borrar articulo</h1>
         <form action="borrar" method="POST">
-            <input type="text" name="username" placeholder="Nombre del Articulo" required>
+            <input type="text" name="username" placeholder="Nombre del Empleado" required>
             <input type="submit" id="loginbutton" value="Borrar">
 
             <!-- Boton de redireccion hacia /Main -->
-    <button class="btn"><a class="a2"href="/main">Salir</a></button>
+    <button class="btn"><a class="a2"href="/main2">Salir</a></button>
         </form>
     </div>
-    <table id="Articulos">
+    <table id="Empleado">
          <tr class="header">
            <th style="width:35%;">Nombre</th>
      </tr>
-         <%Articulos.recordset.forEach(function(Articulo, index){%>
+         <%Empleado.recordset.forEach(function(Empleado, index){%>
          <tr>
-           <td><%= Articulo.Nombre%></td>
+           <td><%= Empleado.Nombre%></td>
          </tr>
          <%});%>
        </table> 
